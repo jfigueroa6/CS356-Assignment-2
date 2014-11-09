@@ -8,17 +8,16 @@ public class Driver {
 		User a = new User("22");
 		User b = new User("23");
 		
-		System.out.println(a.getFollowers());
-		System.out.println(a.getFollowing());
 		System.out.println(a.getNewsFeed());
 		b.addObserver(a);
 		a.addObserver(b);
-		System.out.println(a.getFollowers());
-		System.out.println(a.getFollowing());
 		b.postTweet("Hello");
-		System.out.println(a.getNewsFeed());
+		a.postTweet("Hello B");
+		b.postTweet("How are you?");
+		a.postTweet("Awesome");
+		System.out.println(b.getNewsFeed());
 		a.deleteObserver(b);
-		System.out.println(a.getFollowers());
+		System.out.println(b.getNewsFeed());
 
 	}
 

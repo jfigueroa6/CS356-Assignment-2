@@ -1,16 +1,16 @@
 package edu.cs356.assignment2.service;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Queue;
 
 public class User extends Observable implements Observer {
 	private List<String> followers,		/**List of ID's of followers*/
 						 following;		/**List of ID's of users being followed*/
 	private String id;					/**User id*/
-	private Queue<String> newsFeed;		/**News feed containing user and following tweets*/
+	private List<Tweet> newsFeed;		/**News feed containing user and following tweets*/
 	
 	//=========================================================
 	// Constructor
@@ -20,7 +20,7 @@ public class User extends Observable implements Observer {
 		this.id = id;
 		followers = new LinkedList<String>();
 		following = new LinkedList<String>();
-		newsFeed = new LinkedList<String>();
+		newsFeed = new LinkedList<Tweet>();
 	}
 	
 	//=========================================================
@@ -46,6 +46,10 @@ public class User extends Observable implements Observer {
 			return;
 		followers.remove(((User)arg0).id);
 		((User)arg0).following.remove(id);
+		
+		//Remove from Observer's news feed
+		((User)arg0).removeFromNewsFeed(id);
+		
 		super.deleteObserver(arg0);
 	}
 	
@@ -68,25 +72,37 @@ public class User extends Observable implements Observer {
 		return id;
 	}
 	
-	public Queue<String> getNewsFeed() {
+	public List<Tweet> getNewsFeed() {
 		return newsFeed;
 	}
 	
-	public void postTweet(String tweet) {
-		newsFeed.add(id + tweet);
+	public void postTweet(String msg) {
+		Tweet tweet = new Tweet(id, msg);
+		newsFeed.add(tweet);
 		setChanged();
 		notifyObservers(tweet);
+	}
+	
+	private void removeFromNewsFeed(String userID) {
+		Iterator<Tweet> i = newsFeed.iterator();
+		while (i.hasNext()) {
+			Tweet t = i.next();
+			if (t.getID().equals(userID))
+				i.remove();
+		}
 	}
 	
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		//	The passed arg1 is an integer so delete the observable object from
 		// the following list. This is used when a user deletes all of its followers
-		if (arg1 instanceof Integer)
+		if (arg1 instanceof Integer) {
 			following.remove(((User)arg0).id);
+			//User we were following has removed us, so remove them from our news feed
+			removeFromNewsFeed(((User)arg0).id);
+		}
 		else {
-			newsFeed.add(((User)arg0).id +": " + (String)arg1);
+			newsFeed.add((Tweet)arg1);
 		}
 	}
-	
 }
