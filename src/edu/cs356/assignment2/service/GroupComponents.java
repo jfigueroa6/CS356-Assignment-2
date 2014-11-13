@@ -29,4 +29,22 @@ public interface GroupComponents {
 	 * @return		True if the ID exists. False otherwise.
 	 */
 	public boolean checkID(String id);
+	/**
+	 * Gets the component with the given id.
+	 * @param id	ID of component to retrieve.
+	 * @return		Component if it exists or null
+	 */
+	public GroupComponents getComponent(String id);
+	/**
+	 * Sets the parent of the component.
+	 * @param parent	Parent component
+	 */
+	public void setParent(GroupComponents parent);
+	/**
+	 * Gets the parent of the component
+	 * @return	Parent component
+	 */
+	public GroupComponents getParent();
+	
+	//TODO: Implement visitor method
 }

@@ -2,6 +2,7 @@ package edu.cs356.assignment2.service;
 
 public class GroupComponentsUser implements GroupComponents {
 	private User user = null;	/**User that resides in this leaf*/
+	private GroupComponents parent = null;	/**Parent of leaf*/
 	
 	//=========================================================
 	// Constructor
@@ -58,9 +59,32 @@ public class GroupComponentsUser implements GroupComponents {
 	@Override
 	public boolean checkID(String id) {
 		//Check ID with given id
-		if (user.getID().equals(id))
+		if (user.getID().equalsIgnoreCase(id))
 			return true;
 		//No match
 		return false;
+	}
+	
+	/**
+	 * If the given ID matches the stored User's ID, then it 
+	 * will return this object.
+	 * {@inheritDoc}
+	 */
+	@Override
+	public GroupComponents getComponent(String id) {
+		//First check own ID
+		if (this.user.getID().equalsIgnoreCase(id))
+			return this;
+		return null;
+	}
+
+	@Override
+	public void setParent(GroupComponents parent) {
+		this.parent = parent;
+	}
+
+	@Override
+	public GroupComponents getParent() {
+		return parent;
 	}
 }
