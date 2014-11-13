@@ -55,6 +55,28 @@ public class TwitterService {
 	}
 	
 	/**
+	 * A user (followerID) wants to follow another user (subjectID).
+	 * @param subjectID	ID of user to follow.
+	 * @param followerID	ID of follower
+	 * @return	True if operation is successful, false otherwise
+	 */
+	public boolean follow(String subjectID, String followerID) {
+		//User wants to follow him/herself. Isn't that narcissistic.
+		if (subjectID.equalsIgnoreCase(followerID))
+			return false;
+		
+		User subject = treeSingleton.getUser(subjectID);
+		User follower = treeSingleton.getUser(followerID);
+		//If subject or follower are null then return false
+		if (subject == null || follower == null)
+			return false;
+		
+		//Add follower as an observer of subject
+		subject.addObserver(follower);
+		return true;
+	}
+	
+	/**
 	 * Static method to access the TwitterService singleton instance. Uses
 	 * lazy instantiation, so memory is only used when this method is first
 	 * called.

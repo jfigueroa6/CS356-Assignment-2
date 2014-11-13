@@ -92,6 +92,15 @@ public class TwitterGroupTree {
 	}
 	
 	/**
+	 * Get the given user.
+	 * @param userID	ID of user.
+	 * @return	User if found.
+	 */
+	public User getUser(String userID) {
+		return root.getUser(userID);
+	}
+	
+	/**
 	 * Remove the given group and shift all children to the parent. Will NOT
 	 * allow the root to be deleted.
 	 * @param groupID	Group to delete.

@@ -11,8 +11,7 @@ public class Driver {
 		TwitterService.getInstance().addUser("Bob");
 		TwitterService.getInstance().addUser("Alice", "Test");
 		
-		TwitterService.getInstance().removeGroup("Test");
-		TwitterService.getInstance().removeUser("Bob");
+		TwitterService.getInstance().follow("Bob", "Alice");
 	}
 
 }
