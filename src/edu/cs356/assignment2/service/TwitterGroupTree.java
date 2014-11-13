@@ -121,6 +121,11 @@ public class TwitterGroupTree {
 		return true;
 	}
 	
+	/**
+	 * Removes a user from the tree. This pretty much deletes a user.
+	 * @param userID	ID of user to delete.
+	 * @return	True if the operation was successful, false otherwise.
+	 */
 	public boolean removeUser(String userID) {
 		//First check that the user exists
 		if (!(root.checkID(userID)))
@@ -138,6 +143,8 @@ public class TwitterGroupTree {
 			//Remove user leaf component
 			leaf.getParent().remove(leaf);
 		}
+		else
+			return false;
 		
 		//Success removing user
 		return true;
