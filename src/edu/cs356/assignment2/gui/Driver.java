@@ -8,7 +8,11 @@ public class Driver {
 		TwitterService.getInstance().addGroup("Test");
 		TwitterService.getInstance().addGroup("Test2", "Test");
 		
+		TwitterService.getInstance().addUser("Bob");
+		TwitterService.getInstance().addUser("Alice", "Test");
+		
 		TwitterService.getInstance().removeGroup("Test");
+		TwitterService.getInstance().removeUser("Bob");
 	}
 
 }

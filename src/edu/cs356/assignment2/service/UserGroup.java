@@ -105,4 +105,20 @@ public class UserGroup implements GroupComponents{
 	public GroupComponents getParent() {
 		return parent;
 	}
+	
+	/**
+	 * Since only GroupComponentsUserLeafs hold users, have UserGroup search their children.
+	 * {@inheritDoc}
+	 */
+	@Override
+	public User getUser(String id) {
+		//Since UserGroup doesn't have children, search the children of Leaf components
+		for (GroupComponents child : children) {
+			User user = child.getUser(id);
+			if (user != null)
+				return user;
+		}
+		//This group does not have this user.
+		return null;
+	}
 }

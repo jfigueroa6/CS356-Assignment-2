@@ -87,4 +87,11 @@ public class GroupComponentsUser implements GroupComponents {
 	public GroupComponents getParent() {
 		return parent;
 	}
+
+	@Override
+	public User getUser(String id) {
+		if (user.getID().equalsIgnoreCase(id))
+			return user;
+		return null;
+	}
 }

@@ -46,5 +46,12 @@ public interface GroupComponents {
 	 */
 	public GroupComponents getParent();
 	
+	/**
+	 * Finds a user with the given ID and returns them
+	 * @param id	ID of user
+	 * @return		User object
+	 */
+	public User getUser(String id);
+	
 	//TODO: Implement visitor method
 }

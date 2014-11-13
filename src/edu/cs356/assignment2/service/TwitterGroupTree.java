@@ -48,6 +48,40 @@ public class TwitterGroupTree {
 	}
 	
 	/**
+	 * Adds a new user to the root group.
+	 * @param userID	New user ID
+	 * @return		True if operation successful, false otherwise.
+	 */
+	public boolean addUser(String userID) {
+		//Just call the other addUser method.
+		return addUser(userID, "root");
+	}
+	
+	/**
+	 * Adds a new user to the given group
+	 * @param userID	New user ID
+	 * @param groupID	Group ID to add user to.
+	 * @return		True if operation successful, false otherwise
+	 */
+	public boolean addUser(String userID, String groupID) {
+		//First make sure that the new user ID does not exist
+		if (root.checkID(userID))
+			return false;
+		
+		//Get the UserGroup and make sure it's not null and that it's actually a group
+		GroupComponents group = root.getComponent(groupID);
+		if ((group != null) && (group instanceof UserGroup))
+			//Add user to this group
+			group.add(new GroupComponentsUser(new User(userID)));
+		else
+			//GroupID referred to a user or that group doesn't exist
+			return false;
+		
+		//Congratulations you joined this Twitter knock-off!!!
+		return true;
+	}
+	
+	/**
 	 * Static method to access the singleton instance of TwitterGroupTree.
 	 * @return	TwitterGroupTree instance
 	 */
@@ -57,6 +91,12 @@ public class TwitterGroupTree {
 		return instance;
 	}
 	
+	/**
+	 * Remove the given group and shift all children to the parent. Will NOT
+	 * allow the root to be deleted.
+	 * @param groupID	Group to delete.
+	 * @return		True if removal is successful, false otherwise.
+	 */
 	public boolean removeGroup(String groupID) {
 		//First check if the group exists and that it is not the root group.
 		if (groupID.equalsIgnoreCase("root") || !(root.checkID(groupID)))
@@ -78,6 +118,28 @@ public class TwitterGroupTree {
 			return false;
 		
 		//Successful removal of group
+		return true;
+	}
+	
+	public boolean removeUser(String userID) {
+		//First check that the user exists
+		if (!(root.checkID(userID)))
+			return false;
+		
+		//Get the user. If it's null return false (this means the ID is for a group).
+		GroupComponents leaf = root.getComponent(userID);
+		User user = leaf.getUser(userID);
+		if (user != null) {
+			//Find all users that this user is following and remove this user from their followers list.
+			for (String following : user.getFollowing())
+				root.getUser(following).deleteObserver(user);
+			//Clear the user's followers
+			user.deleteObservers();
+			//Remove user leaf component
+			leaf.getParent().remove(leaf);
+		}
+		
+		//Success removing user
 		return true;
 	}
 }
