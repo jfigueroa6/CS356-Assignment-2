@@ -1,4 +1,4 @@
-package edu.cs356.assignment2.service;
+package edu.cs356.assignment2.service.TwitterUser;
 
 import java.util.Iterator;
 import java.util.LinkedList;

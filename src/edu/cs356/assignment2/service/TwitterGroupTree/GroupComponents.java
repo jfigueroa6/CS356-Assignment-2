@@ -1,4 +1,6 @@
-package edu.cs356.assignment2.service;
+package edu.cs356.assignment2.service.TwitterGroupTree;
+
+import edu.cs356.assignment2.service.TwitterUser.User;
 
 public interface GroupComponents {
 	/**

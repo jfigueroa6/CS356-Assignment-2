@@ -1,7 +1,9 @@
-package edu.cs356.assignment2.service;
+package edu.cs356.assignment2.service.TwitterGroupTree;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.cs356.assignment2.service.TwitterUser.User;
 
 public class UserGroup implements GroupComponents{
 	private String id;		/**Group ID*/

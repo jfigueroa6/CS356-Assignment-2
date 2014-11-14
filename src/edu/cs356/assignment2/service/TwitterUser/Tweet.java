@@ -1,4 +1,4 @@
-package edu.cs356.assignment2.service;
+package edu.cs356.assignment2.service.TwitterUser;
 
 public class Tweet {
 	private String id;			/**ID of user that wrote tweet*/

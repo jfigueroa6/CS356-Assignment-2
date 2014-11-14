@@ -1,5 +1,8 @@
 package edu.cs356.assignment2.service;
 
+import edu.cs356.assignment2.service.TwitterGroupTree.TwitterGroupTree;
+import edu.cs356.assignment2.service.TwitterUser.User;
+
 public class TwitterService {
 	private static TwitterService instance = null;	/**TwitterService singleton*/
 	private TwitterGroupTree treeSingleton;
@@ -61,6 +64,18 @@ public class TwitterService {
 	 * @return	True if operation is successful, false otherwise
 	 */
 	public boolean follow(String subjectID, String followerID) {
+		return followUnfollow(subjectID, followerID, true);
+	}
+	
+	/**
+	 * Since follow and unfollow are the same except for one line, just use the same
+	 * method to handle both.
+	 * @param subjectID	ID of user to follow/unfollow.
+	 * @param followerID	ID of follower
+	 * @param follow	If true then performs follow, else performs unfollow operation
+	 * @return	True if operation successful, false otherwise.
+	 */
+	private boolean followUnfollow(String subjectID, String followerID, boolean follow) {
 		//User wants to follow him/herself. Isn't that narcissistic.
 		if (subjectID.equalsIgnoreCase(followerID))
 			return false;
@@ -71,8 +86,14 @@ public class TwitterService {
 		if (subject == null || follower == null)
 			return false;
 		
-		//Add follower as an observer of subject
-		subject.addObserver(follower);
+		//If follow is true, then it adds an observer, otherwise it removes an observer.
+		if (follow)
+			//Add follower as an observer of subject
+			subject.addObserver(follower);
+		else
+			//Remove follower from being an observer of subject
+			subject.deleteObserver(follower);
+		
 		return true;
 	}
 	
@@ -106,5 +127,15 @@ public class TwitterService {
 	 */
 	public boolean removeUser(String userID) {
 		return treeSingleton.removeUser(userID);
+	}
+	
+	/**
+	 * User with followerID stops following user with subjectID.
+	 * @param subjectID	ID of subject to stop following.
+	 * @param followerID	ID of follower.
+	 * @return	True if operation successful, false otherwise.
+	 */
+	public boolean unfollow(String subjectID, String followerID) {
+		return followUnfollow(subjectID, followerID, false);
 	}
 }
