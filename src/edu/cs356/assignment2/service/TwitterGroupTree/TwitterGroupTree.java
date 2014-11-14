@@ -1,5 +1,6 @@
 package edu.cs356.assignment2.service.TwitterGroupTree;
 
+import edu.cs356.assignment2.gui.Visitor.Visitor;
 import edu.cs356.assignment2.service.TwitterUser.User;
 
 public class TwitterGroupTree {
@@ -15,6 +16,15 @@ public class TwitterGroupTree {
 	//=========================================================
 	// Methods
 	//=========================================================
+	/**
+	 * Accepts a visiting object and sends it to the root for it
+	 * to do its task.
+	 * @param v	Visitng object
+	 */
+	public void accept(Visitor v) {
+		
+	}
+	
 	/**
 	 * Adds a new group to the Root user group.
 	 * @param groupID	ID of new group

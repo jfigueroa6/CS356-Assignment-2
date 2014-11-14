@@ -3,6 +3,7 @@ package edu.cs356.assignment2.service.TwitterGroupTree;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.cs356.assignment2.gui.Visitor.Visitor;
 import edu.cs356.assignment2.service.TwitterUser.User;
 
 public class UserGroup implements GroupComponents{
@@ -122,5 +123,14 @@ public class UserGroup implements GroupComponents{
 		}
 		//This group does not have this user.
 		return null;
+	}
+	
+	/**
+	 * Calls the visitUserGroup method in the visitor.
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void accept(Visitor v) {
+		v.visitUserGroup(this);		
 	}
 }

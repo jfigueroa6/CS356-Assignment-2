@@ -1,5 +1,6 @@
 package edu.cs356.assignment2.service.TwitterGroupTree;
 
+import edu.cs356.assignment2.gui.Visitor.Visitor;
 import edu.cs356.assignment2.service.TwitterUser.User;
 
 public class GroupComponentsUser implements GroupComponents {
@@ -95,5 +96,14 @@ public class GroupComponentsUser implements GroupComponents {
 		if (user.getID().equalsIgnoreCase(id))
 			return user;
 		return null;
+	}
+	
+	/**
+	 * Calls the visitGroupComponentsUser method in the visitor.
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void accept(Visitor v) {
+		v.visitGroupComponentsUser(this);
 	}
 }

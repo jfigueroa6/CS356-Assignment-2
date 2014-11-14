@@ -1,5 +1,6 @@
 package edu.cs356.assignment2.service;
 
+import edu.cs356.assignment2.gui.Visitor.Visitor;
 import edu.cs356.assignment2.service.TwitterGroupTree.TwitterGroupTree;
 import edu.cs356.assignment2.service.TwitterUser.User;
 
@@ -19,6 +20,13 @@ public class TwitterService {
 	//=========================================================
 	// Methods
 	//=========================================================
+	/**
+	 * Accepts a visitor object from the GUI, and sends it on to the group tree.
+	 * @param v	Visiting object.
+	 */
+	public void accept(Visitor v) {
+		treeSingleton.accept(v);
+	}
 	/**
 	 * Add group to tree.
 	 * @param groupID	ID of new group.

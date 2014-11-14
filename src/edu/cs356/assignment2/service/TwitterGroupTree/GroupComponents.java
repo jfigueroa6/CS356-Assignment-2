@@ -1,5 +1,6 @@
 package edu.cs356.assignment2.service.TwitterGroupTree;
 
+import edu.cs356.assignment2.gui.Visitor.Visitor;
 import edu.cs356.assignment2.service.TwitterUser.User;
 
 public interface GroupComponents {
@@ -55,5 +56,9 @@ public interface GroupComponents {
 	 */
 	public User getUser(String id);
 	
-	//TODO: Implement visitor method
+	/**
+	 * Accepts a visiting object.
+	 * @param v	Visiting object.
+	 */
+	public void accept(Visitor v);
 }
