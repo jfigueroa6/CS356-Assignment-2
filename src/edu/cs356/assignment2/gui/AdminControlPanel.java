@@ -20,12 +20,13 @@ import edu.cs356.assignment2.service.TwitterService;
 public class AdminControlPanel extends JFrame {
 	//Static Members
 	private static AdminControlPanel instance = null;	/**Instance of this class*/
-	private static final int HEIGHT = 480;	/**Preferred height for window*/
-	private static final int WIDTH = 600;	/**Preferred width for window*/
-	private static final int GAP = 10;		/**Gap between tree view and buttons/TextAreas*/
+	public static final int HEIGHT = 480;	/**Preferred height for window*/
+	public static final int WIDTH = 600;	/**Preferred width for window*/
+	private static final int GAP = 5;		/**Gap between tree view and buttons/TextAreas*/
 	
 	//Swing Members
 	private JScrollPane treeView = null;
+	private ControlPanel control = null;
 	
 	//Class Members
 	private TwitterService service = null;	/**Holds a reference to the TwitterService singleton*/
@@ -37,12 +38,8 @@ public class AdminControlPanel extends JFrame {
 		super("Twitter Admin Control Panel");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		//Perform TwitterService and window initialization
+		//Perform TwitterService initialization
 		service = TwitterService.getInstance();
-		initializePanel();
-		
-		//Initialization complete so display the window.
-		setVisible(true);
 	}
 	
 	//=========================================================
@@ -72,19 +69,31 @@ public class AdminControlPanel extends JFrame {
 		JPanel panel = new JPanel();
 		
 		//Set default size, background color, and layout
-		panel.setBackground(Color.DARK_GRAY);
+		panel.setBackground(Color.LIGHT_GRAY);
 		panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		panel.setLayout(new BorderLayout(GAP, GAP));	//Border layout has NORTH, SOUTH, EAST, WEST, CENTER areas.
 		
 		//TODO:Initialize TextAreas, and Buttons
 		//Create the tree and add it to the panel.
 		updateTreeView();
-		panel.add(treeView, BorderLayout.WEST);
+		panel.add(treeView, BorderLayout.WEST);	//TODO: Might have to move this to updateTreeView
+		control = ControlPanel.getInstance();
+		panel.add(control, BorderLayout.EAST);
 		
 		
 		//Add panel to ACP
 		getContentPane().add(panel);
 		pack();		//Resizes to the preferred size
+	}
+	
+	/**
+	 * Initializes all of the swing objects and displays the main ACP window.
+	 */
+	public void startACP() {
+		initializePanel();
+		
+		//Initialization complete so display the window.
+		setVisible(true);
 	}
 	
 	/**
@@ -104,7 +113,7 @@ public class AdminControlPanel extends JFrame {
 		
 		//Mission complete! Create the tree from the root stored in visitor, add scrollbars to it, and assign it to treeView
 		treeView = new JScrollPane(tree);
-		treeView.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
+		treeView.setPreferredSize(new Dimension((WIDTH / 3) - GAP, HEIGHT));
 	}
 	
 	//=========================================================
