@@ -8,6 +8,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeSelectionModel;
 
 import edu.cs356.assignment2.gui.Visitor.TreeViewVisitor;
 import edu.cs356.assignment2.service.TwitterService;
@@ -23,7 +27,9 @@ public class AdminControlPanel extends JFrame {
 	//Swing Members
 	private JScrollPane treeView = null;
 	
+	//Class Members
 	private TwitterService service = null;	/**Holds a reference to the TwitterService singleton*/
+	private String selectedID = "root";		/**Holds the ID selected on tree. Default of root just in case none is selected*/
 	//=========================================================
 	// Constructor
 	//=========================================================
@@ -53,6 +59,10 @@ public class AdminControlPanel extends JFrame {
 		return instance;
 	}
 	
+	public String getSelectedID() {
+		return selectedID;
+	}
+	
 	/**
 	 * Initializes the main panel. This panel handles the size of 
 	 * the main window. This method also initializes the TreeView,
@@ -77,12 +87,40 @@ public class AdminControlPanel extends JFrame {
 		pack();		//Resizes to the preferred size
 	}
 	
+	/**
+	 * Updates the tree view by sending a visitor to the TwitterService. Once it returns, the tree is
+	 * developed from the result, and it is stored into the tree view. The size is set to half the width
+	 * of the parent panel.
+	 */
 	private void updateTreeView() {
 		//Send the visitor on its super secret mission to create a tree from the user and group ID's
 		TreeViewVisitor visitor = new TreeViewVisitor(); 
 		service.accept(visitor);
+		
+		//Set the selection mode and the selection listener.
+		JTree tree = new JTree(visitor.getRoot());
+		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);	//Can only select one item in the tree
+		tree.addTreeSelectionListener(new TreeListener());
+		
 		//Mission complete! Create the tree from the root stored in visitor, add scrollbars to it, and assign it to treeView
-		treeView = new JScrollPane(new JTree(visitor.getRoot()));
+		treeView = new JScrollPane(tree);
 		treeView.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
+	}
+	
+	//=========================================================
+	// Private Classes
+	//=========================================================
+	/**
+	 * Listener for the treeview.
+	 */
+	private class TreeListener implements TreeSelectionListener {
+		/**
+		 * When an item on the treeview is selected, the ID of this selection is stored
+		 * in selectedID.
+		 */
+		@Override
+		public void valueChanged(TreeSelectionEvent arg0) {
+			selectedID = arg0.getPath().getLastPathComponent().toString();
+		}
 	}
 }

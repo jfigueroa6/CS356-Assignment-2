@@ -9,10 +9,6 @@ public class TreeViewVisitor implements Visitor {
 	private DefaultMutableTreeNode root = null;		/**Root node of tree*/
 	private DefaultMutableTreeNode parent = null;	/**Used for attaching subgroups to correct parent group*/
 	//=========================================================
-	// Constructor
-	//=========================================================
-	
-	//=========================================================
 	// Methods
 	//=========================================================
 	/**
