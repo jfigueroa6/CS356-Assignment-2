@@ -35,7 +35,7 @@ public class ErrorWindow extends JFrame {
 		//Add OK Button
 		Button okButton = new Button("OK");
 		okButton.addActionListener(new ButtonListener());
-		
+		panel.add(okButton);
 		
 		//Show Window
 		setVisible(true);
