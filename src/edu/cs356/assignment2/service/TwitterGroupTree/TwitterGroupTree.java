@@ -19,10 +19,10 @@ public class TwitterGroupTree {
 	/**
 	 * Accepts a visiting object and sends it to the root for it
 	 * to do its task.
-	 * @param v	Visitng object
+	 * @param v	Visiting object
 	 */
 	public void accept(Visitor v) {
-		
+		root.accept(v);
 	}
 	
 	/**

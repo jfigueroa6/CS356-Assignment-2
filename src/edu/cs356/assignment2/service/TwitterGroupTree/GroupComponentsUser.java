@@ -106,4 +106,9 @@ public class GroupComponentsUser implements GroupComponents {
 	public void accept(Visitor v) {
 		v.visitGroupComponentsUser(this);
 	}
+
+	@Override
+	public String getID() {
+		return user.getID();
+	}
 }

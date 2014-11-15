@@ -61,4 +61,10 @@ public interface GroupComponents {
 	 * @param v	Visiting object.
 	 */
 	public void accept(Visitor v);
+	
+	/**
+	 * Get the ID of the GroupComponent.
+	 * @return	ID of Component.
+	 */
+	public String getID();
 }

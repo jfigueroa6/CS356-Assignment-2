@@ -133,4 +133,9 @@ public class UserGroup implements GroupComponents{
 	public void accept(Visitor v) {
 		v.visitUserGroup(this);		
 	}
+
+	@Override
+	public String getID() {
+		return id;
+	}
 }
