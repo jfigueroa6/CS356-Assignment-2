@@ -15,8 +15,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import edu.cs356.assignment2.service.TwitterService;
+
 @SuppressWarnings("serial")
-public class ControlPanel extends JPanel implements ActionListener{
+public class ControlPanel extends JPanel{
 	private static ControlPanel instance = null;
 	private static int GAP = 5;
 	private JButton addUser = new JButton("Add User"),
@@ -32,17 +34,21 @@ public class ControlPanel extends JPanel implements ActionListener{
 					groupID = new JTextArea("Group ID", 1, 20);	/**TextArea with only 1 row and limit of 20 characters*/
 	
 	private AdminControlPanel acpSingleton;
+	private TwitterService service;
 	//=========================================================
 	// Constructor
 	//=========================================================
 	private ControlPanel() {
 		acpSingleton = AdminControlPanel.getInstance();
+		service = TwitterService.getInstance();
 		
 		//First set up the panel.
 		setBackground(Color.LIGHT_GRAY);
 		setPreferredSize(new Dimension((AdminControlPanel.WIDTH * 2 / 3) - GAP, AdminControlPanel.HEIGHT));
 		setLayout(new GridLayout(3, 1, GAP, 0));	//Forces layout to be 3 row and 1 column
 		
+		//Initialize action listeners for buttons
+		initActionListeners();
 		//Initialize add/remove user/group
 		initAddRemove();
 		//Initialize Open user view
@@ -54,6 +60,96 @@ public class ControlPanel extends JPanel implements ActionListener{
 	// Methods
 	//=========================================================
 	/**
+	 * Adds an ActionListener to the addUser button which tells TwitterService to add a user.
+	 * If an error occurs, a dialog window appears.
+	 */
+	private void addListenerAddUser() {
+		addUser.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//Gets the group selected for the user from acpSingleton, and gets the new user ID
+				//from the userID TextArea. If the addUserfunction fails, then display a dialog message
+				if (service.addUser(userID.getText(), acpSingleton.getSelectedID()))
+					//Operation successful so repaint the tree.
+					acpSingleton.updateACPView();
+				else
+					//addUser failed so display a message
+					JOptionPane.showMessageDialog(acpSingleton, "Error adding user. Check if selected ID is a user or"
+							+ " new ID already exists.", "Add User Error", JOptionPane.ERROR_MESSAGE);
+				userID.setText("User ID");
+			}
+		});
+	}
+	
+	/**
+	 * Adds an ActionListener to the addGroup button which tells TwiterService to add a group.
+	 * If an error occurs, a dialog window is shown.
+	 */
+	private void addListenerAddGroup() {
+		addGroup.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//Gets the parent group selected for the group from acpSingleton, and gets the new group ID
+				//from the groupID TextArea. If the addGroup function fails, then display a dialog message
+				if (service.addGroup(groupID.getText(), acpSingleton.getSelectedID()))
+					//Operation successful so repaint the tree.
+					acpSingleton.updateACPView();
+				else
+					//addGroup failed so display a message
+					JOptionPane.showMessageDialog(acpSingleton, "Error adding group. Check if selected ID is a user or"
+							+ " new ID already exists.", "Add Group Error", JOptionPane.ERROR_MESSAGE);
+				groupID.setText("Group ID");
+			}
+		});
+	}
+	
+	/**
+	 * Adds an ActionListener to the removeUser button which tells TwitterService to remove a user.
+	 * If an error occurs, a dialog window is shown.
+	 */
+	private void addListenerRemoveUser() {
+		removeUser.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// Get the selected User ID from acpSingleton. If the removeUser method fails,
+				//then a dialog message will be displayed.
+				if (service.removeUser(acpSingleton.getSelectedID()))
+					//Operation successful so repaint the tree
+					acpSingleton.updateACPView();
+				else
+					//removeUser failed so display a message
+					JOptionPane.showMessageDialog(acpSingleton, "Error removing ID: " 
+							+ acpSingleton.getSelectedID() + ". Make sure it is a user ID.", "Remove User Error"
+							, JOptionPane.ERROR_MESSAGE);
+				userID.setText("User ID");	//BUG: Doing this because for some reason tree view won't reappear
+			}
+		});
+	}
+	
+	/**
+	 * Adds an ActionListener to the removeGroup button which tells TwitterService to remove a group.
+	 * If an error occurs, a dialog window is shown.
+	 */
+	private void addListenerRemoveGroup() {
+		removeGroup.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// Get the selected Group ID from acpSingleton. If the removeGroup method fails,
+				//then a dialog message will be displayed.
+				if (service.removeGroup(acpSingleton.getSelectedID()))
+					//Operation successful so repaint the tree
+					acpSingleton.updateACPView();
+				else
+					//removeGroup failed so display a message
+					JOptionPane.showMessageDialog(acpSingleton, "Error removing ID: " 
+							+ acpSingleton.getSelectedID() + ". Make sure it is a group ID and not root.", "Remove Group Error"
+							, JOptionPane.ERROR_MESSAGE);
+				groupID.setText("Group ID");	//BUG: Doing this because for some reason tree view won't reappear
+			}
+		});
+	}
+	
+	/**
 	 * Get the ControlPanel singleton instance. Uses lazy instantiation.
 	 * @return	Instance of ControlPanel.
 	 */
@@ -61,6 +157,16 @@ public class ControlPanel extends JPanel implements ActionListener{
 		if (instance == null)
 			instance = new ControlPanel();
 		return instance;
+	}
+	
+	/**
+	 * Initializes the ActionListeners for all of the buttons.
+	 */
+	private void initActionListeners() {
+		addListenerAddUser();	//Initialize addUser ActionListener
+		addListenerAddGroup();	//Initialize addGroup ActionListener
+		addListenerRemoveUser(); //Initialize removeUser actionListener
+		addListenerRemoveGroup();	//Initialize removeGroup ActionListener
 	}
 	
 	/**
@@ -120,14 +226,5 @@ public class ControlPanel extends JPanel implements ActionListener{
 		
 		//Add panel to ControlPanel
 		add(showPanel);
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		boolean result = true;
-		JOptionPane msg;
-		
-		//Find out which button called the listener
-		//if (arg0.getSource() == addUser)
 	}
 }

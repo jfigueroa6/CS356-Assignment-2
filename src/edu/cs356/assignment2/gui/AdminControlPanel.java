@@ -2,7 +2,9 @@ package edu.cs356.assignment2.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,6 +27,7 @@ public class AdminControlPanel extends JFrame {
 	private static final int GAP = 5;		/**Gap between tree view and buttons/TextAreas*/
 	
 	//Swing Members
+	private JPanel mainPanel = null;
 	private JScrollPane treeView = null;
 	private ControlPanel control = null;
 	
@@ -61,28 +64,41 @@ public class AdminControlPanel extends JFrame {
 	}
 	
 	/**
+	 * Gets the index where the tree view is stored in the mainPanel components array.
+	 * @return	Index of tree view or -1 if it does not exist.
+	 */
+	private int getTreeViewIndex() {
+		Component[] comp = mainPanel.getComponents();
+		for (int i = 0; i < comp.length; i++) {
+			if (comp[i] instanceof JScrollPane)
+				return i;
+		}
+		return -1;
+	}
+	
+	/**
 	 * Initializes the main panel. This panel handles the size of 
 	 * the main window. This method also initializes the TreeView,
 	 * buttons, and TextAreas.
 	 */
 	private void initializePanel() {
-		JPanel panel = new JPanel();
+		mainPanel = new JPanel();
 		
 		//Set default size, background color, and layout
-		panel.setBackground(Color.LIGHT_GRAY);
-		panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		panel.setLayout(new BorderLayout(GAP, GAP));	//Border layout has NORTH, SOUTH, EAST, WEST, CENTER areas.
+		mainPanel.setBackground(Color.LIGHT_GRAY);
+		mainPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		mainPanel.setLayout(new BorderLayout(GAP, GAP));	//Border layout has NORTH, SOUTH, EAST, WEST, CENTER areas.
 		
 		//TODO:Initialize TextAreas, and Buttons
 		//Create the tree and add it to the panel.
 		updateTreeView();
-		panel.add(treeView, BorderLayout.WEST);	//TODO: Might have to move this to updateTreeView
+		//TODO: Might have to move this to updateTreeView
 		control = ControlPanel.getInstance();
-		panel.add(control, BorderLayout.EAST);
+		mainPanel.add(control, BorderLayout.EAST);
 		
 		
 		//Add panel to ACP
-		getContentPane().add(panel);
+		getContentPane().add(mainPanel);
 		pack();		//Resizes to the preferred size
 	}
 	
@@ -97,14 +113,28 @@ public class AdminControlPanel extends JFrame {
 	}
 	
 	/**
+	 * Updates the ACP View. In particular, it updates the tree view to display new users and
+	 * groups. It also resets selectedID to root
+	 */
+	public void updateACPView() {
+		mainPanel.remove(treeView);
+		updateTreeView();
+		paint(getGraphics());
+		selectedID = "root";
+	}
+	
+	/**
 	 * Updates the tree view by sending a visitor to the TwitterService. Once it returns, the tree is
 	 * developed from the result, and it is stored into the tree view. The size is set to half the width
 	 * of the parent panel.
+	 * @param initialize	If true, then this call is part of init, and won't remove treeView from mainPanel.
 	 */
 	private void updateTreeView() {
 		//Send the visitor on its super secret mission to create a tree from the user and group ID's
 		TreeViewVisitor visitor = new TreeViewVisitor(); 
 		service.accept(visitor);
+		
+		//TODO: Change the icons for the tree. Groups that do not have any children look like users.
 		
 		//Set the selection mode and the selection listener.
 		JTree tree = new JTree(visitor.getRoot());
@@ -114,6 +144,7 @@ public class AdminControlPanel extends JFrame {
 		//Mission complete! Create the tree from the root stored in visitor, add scrollbars to it, and assign it to treeView
 		treeView = new JScrollPane(tree);
 		treeView.setPreferredSize(new Dimension((WIDTH / 3) - GAP, HEIGHT));
+		mainPanel.add(treeView, BorderLayout.WEST);
 	}
 	
 	//=========================================================
