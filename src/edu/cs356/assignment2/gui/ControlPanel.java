@@ -56,6 +56,7 @@ public class ControlPanel extends JPanel{
 		//Initialize Show portion
 		initShowButtons();
 	}
+	
 	//=========================================================
 	// Methods
 	//=========================================================
