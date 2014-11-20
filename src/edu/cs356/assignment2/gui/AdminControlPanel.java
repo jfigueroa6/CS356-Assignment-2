@@ -15,6 +15,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
+import edu.cs356.assignment2.gui.ControlPanel.ControlPanel;
 import edu.cs356.assignment2.gui.Visitor.TreeViewVisitor;
 import edu.cs356.assignment2.service.TwitterService;
 
