@@ -105,6 +105,10 @@ public class TwitterService {
 		return true;
 	}
 	
+	public User getUser(String userID) {
+		return treeSingleton.getUser(userID);
+	}
+	
 	/**
 	 * Static method to access the TwitterService singleton instance. Uses
 	 * lazy instantiation, so memory is only used when this method is first

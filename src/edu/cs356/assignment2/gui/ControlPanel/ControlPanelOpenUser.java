@@ -1,6 +1,8 @@
 package edu.cs356.assignment2.gui.ControlPanel;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -13,6 +15,7 @@ import edu.cs356.assignment2.service.TwitterService;
 @SuppressWarnings("serial")
 public class ControlPanelOpenUser extends JPanel {
 	private static ControlPanelOpenUser instance = null;	/**Holds static reference to an instance of this class*/
+	private static List<UserView> openUserViews = null;
 	
 	private JButton openUserView = new JButton("Open User View");
 	
@@ -39,8 +42,17 @@ public class ControlPanelOpenUser extends JPanel {
 	//=========================================================
 	// Methods
 	//=========================================================
+	/**
+	 * Adds an ActionListener to the openUserView button which will open a new window with the selected
+	 * user
+	 */
 	private void addListenerUserView() {
-		//TODO: Implement this
+		openUserView.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//TODO:Implement this
+			}
+		});
 	}
 	
 	/**
