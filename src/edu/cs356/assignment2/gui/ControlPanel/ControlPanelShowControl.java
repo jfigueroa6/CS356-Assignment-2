@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -11,6 +12,8 @@ import javax.swing.JPanel;
 
 import edu.cs356.assignment2.gui.AdminControlPanel;
 import edu.cs356.assignment2.gui.Visitor.GroupTotalVisitor;
+import edu.cs356.assignment2.gui.Visitor.MessageTotalVisitor;
+import edu.cs356.assignment2.gui.Visitor.PositiveMsgVisitor;
 import edu.cs356.assignment2.gui.Visitor.UserTotalVisitor;
 import edu.cs356.assignment2.service.TwitterService;
 
@@ -62,6 +65,46 @@ public class ControlPanelShowControl extends JPanel {
 			}
 		});
 	}
+	//TODO: Testing on ShowMsgTotal
+	/**
+	 * Adds an ActionListener to the showMsgTotal button which counts the number of messages. It then displays
+	 * the result in a dialog window.
+	 */
+	private void addListenerShowMsgTotal() {
+		showMsgTotal.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				MessageTotalVisitor v = new MessageTotalVisitor();
+				//Count the number of users and display dialog box with results
+				service.accept(v);
+				JOptionPane.showMessageDialog(acpSingleton, "Number of Tweets: " + v.getMsgCount(), "Tweet Count"
+						, JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+	}
+	
+	/**
+	 * Adds an ActionListener to the showPosPerc button which gets a percentage of positive messages. It then displays
+	 * the result in a dialog window. If it cannot open the positive_words file, an error message will appear.
+	 */
+	private void addListenerShowPosPerc() {
+		showPosPerc.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					PositiveMsgVisitor v = new PositiveMsgVisitor();
+					//Count the number of users and display dialog box with results
+					service.accept(v);
+					JOptionPane.showMessageDialog(acpSingleton, "Number of Groups: " + v.getPositivePercentage(), "Group Count"
+							, JOptionPane.INFORMATION_MESSAGE);
+				} catch (FileNotFoundException e) {
+					JOptionPane.showMessageDialog(acpSingleton, "Error openining positive_words.txt", 
+							"File Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+	}
+	
 	
 	/**
 	 * Adds an ActionListener to the showUserTotal button which counts the number of users. It then displays
@@ -96,8 +139,8 @@ public class ControlPanelShowControl extends JPanel {
 	private void initActionListeners() {
 		addListenerShowUserTotal();	//Initialize showUserTotal ActionListener
 		addListenerShowGroupTotal();	//Initialize showGroupTotal ActionListener
-		//addListenerShowMsgTotal();	//Initialize showMsgTotal ActionListener
-		//addListenerShowPosPerc();	//Initialize showPosPerc ActionListener
+		addListenerShowMsgTotal();	//Initialize showMsgTotal ActionListener
+		addListenerShowPosPerc();	//Initialize showPosPerc ActionListener
 	}
 	
 	/**

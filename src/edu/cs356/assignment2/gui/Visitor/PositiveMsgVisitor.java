@@ -13,7 +13,7 @@ import edu.cs356.assignment2.service.TwitterUser.Tweet;
 
 public class PositiveMsgVisitor implements Visitor {
 	private static Map<String, String> positiveWords = null;	/**Stores all of the positive words. It's static so it only has to be filled once.*/
-	private final static String fileLocation = "../Files/positive_words.txt";	/**Location of positve_words file*/
+	private final static String fileLocation = "./Files/Positive_Words/positive_words.txt";	/**Location of positve_words file*/
 	private int posCount = 0,
 				totalMsg = 0;
 	//=========================================================
