@@ -35,7 +35,8 @@ public class ControlPanelUserControl extends JPanel {
 		
 		//Set up the panel
 		setBackground(getBackground());
-		setPreferredSize(new Dimension(getWidth(), getHeight() / 3));	//Takes up 1/3 of the ControlPanel
+		setPreferredSize(new Dimension(AdminControlPanel.WIDTH / 2,
+				AdminControlPanel.HEIGHT / 3));	//Takes up 1/3 of the ControlPanel
 		setLayout(new GridLayout(3, 2, 5, 5));	//Forces layout to have 3 rows and 2 columns and gaps of 5
 		
 		//Initialize ActionListeners

@@ -6,8 +6,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,8 +18,7 @@ import edu.cs356.assignment2.service.TwitterService;
 public class ControlPanel extends JPanel{
 	private static ControlPanel instance = null;
 	private static int GAP = 5;
-	private JButton openUserView = new JButton("Open User View"),
-					showGroupTotal = new JButton("Show Group Total"),
+	private JButton showGroupTotal = new JButton("Show Group Total"),
 					showMsgTotal = new JButton("Show Message Total"),
 					showPosPerc = new JButton("Show Positive Percentage"),
 					showUserTotal = new JButton("Show User Total");
@@ -36,19 +33,18 @@ public class ControlPanel extends JPanel{
 		service = TwitterService.getInstance();
 		
 		//First set up the panel.
-		setBackground(Color.LIGHT_GRAY);
+		setBackground(Color.GRAY);
 		setPreferredSize(new Dimension((AdminControlPanel.WIDTH * 2 / 3) - GAP, AdminControlPanel.HEIGHT));
 		setLayout(new GridLayout(3, 1, GAP, 0));	//Forces layout to be 3 row and 1 column
 		
 		//Initialize action listeners for buttons
 		initActionListeners();
-		//Initialize Open user view
-		initOpenUser();
 		//Initialize Show portion
 		initShowButtons();
 		
 		//Add Button panels to this Main panel
 		add(ControlPanelUserControl.getInstance());
+		add(ControlPanelOpenUser.getInstance());
 	}
 	
 	//=========================================================
@@ -85,29 +81,10 @@ public class ControlPanel extends JPanel{
 	 * Initializes the ActionListeners for all of the buttons.
 	 */
 	private void initActionListeners() {
-		//addListenerUserView();	//Initialize openUserView ActionListener
 		addListenerShowUserTotal();	//Initialize showUserTotal ActionListener
 		//addListenerShowGroupTotal();	//Initialize showGroupTotal ActionListener
 		//addListenerShowMsgTotal();	//Initialize showMsgTotal ActionListener
 		//addListenerShowPosPerc();	//Initialize showPosPerc ActionListener
-	}
-	
-	/**
-	 * Initializes the Open User View portion of ControlPanel.
-	 */
-	private void initOpenUser() {
-		JPanel openUser = new JPanel();
-		
-		//Set up panel
-		openUser.setBackground(getBackground());
-		openUser.setPreferredSize(new Dimension(getWidth(), getHeight() / 3));
-		openUser.setLayout(new BoxLayout(openUser, BoxLayout.Y_AXIS));
-		
-		//Add button and add panel to ControlPanel
-		openUser.add(Box.createRigidArea(new Dimension(0, 5)));
-		openUser.add(openUserView);
-		openUser.add(Box.createRigidArea(new Dimension(0, openUser.getPreferredSize().height - 50)));
-		add(openUser);
 	}
 	
 	private void initShowButtons() {
