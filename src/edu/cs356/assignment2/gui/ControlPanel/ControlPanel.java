@@ -11,7 +11,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 import edu.cs356.assignment2.gui.AdminControlPanel;
 import edu.cs356.assignment2.gui.Visitor.UserTotalVisitor;
