@@ -33,7 +33,12 @@ public class PositiveMsgVisitor implements Visitor {
 	 * @return	Percentage of positive messages.
 	 */
 	public double getPositivePercentage() {
-		return (posCount / totalMsg) * 100;
+		try {
+			return (posCount / totalMsg) * 100;
+		} catch (ArithmeticException e) {
+			//Attempted to divide by 0
+			return 0;
+		}
 	}
 	
 	/**
