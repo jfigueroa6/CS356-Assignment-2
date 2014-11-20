@@ -86,7 +86,7 @@ public class AdminControlPanel extends JFrame {
 		mainPanel = new JPanel();
 		
 		//Set default size, background color, and layout
-		mainPanel.setBackground(Color.LIGHT_GRAY);
+		mainPanel.setBackground(Color.GRAY);
 		mainPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		mainPanel.setLayout(new BorderLayout(GAP, GAP));	//Border layout has NORTH, SOUTH, EAST, WEST, CENTER areas.
 		

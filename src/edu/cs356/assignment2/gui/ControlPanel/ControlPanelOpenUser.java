@@ -42,6 +42,7 @@ public class ControlPanelOpenUser extends JPanel {
 	private void addListenerUserView() {
 		//TODO: Implement this
 	}
+	
 	/**
 	 * Get the ControlPanelOpenUser singleton instance. Uses lazy instantiation.
 	 * @return	Instance of ControlPanelOpenUser.
