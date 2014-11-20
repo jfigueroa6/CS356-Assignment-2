@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -20,7 +21,7 @@ import edu.cs356.assignment2.service.TwitterUser.User;
 @SuppressWarnings("serial")
 public class ControlPanelOpenUser extends JPanel {
 	private static ControlPanelOpenUser instance = null;	/**Holds static reference to an instance of this class*/
-	private List<UserView> openUserViews = null;		/**Holds a reference to a list of all open user views*/
+	private List<JFrame> openUserViews = null;		/**Holds a reference to a list of all open user views*/
 	
 	private JButton openUserView = new JButton("Open User View");
 	
@@ -32,7 +33,7 @@ public class ControlPanelOpenUser extends JPanel {
 	private ControlPanelOpenUser() {
 		acpSingleton = AdminControlPanel.getInstance();
 		service = TwitterService.getInstance();
-		openUserViews = new LinkedList<UserView>();
+		openUserViews = new LinkedList<JFrame>();
 		
 		setBackground(getBackground());
 		setPreferredSize(new Dimension(AdminControlPanel.WIDTH / 2,
@@ -91,7 +92,7 @@ public class ControlPanelOpenUser extends JPanel {
 	 * Remove a view from the openUserViews list. Called when the UserView is disposed.
 	 * @param view	View to remove.
 	 */
-	public void removeOpenView(UserView view) {
+	public void removeOpenView(JFrame view) {
 		openUserViews.remove(view);
 	}
 	
@@ -99,7 +100,7 @@ public class ControlPanelOpenUser extends JPanel {
 	 * Refreshes any open user views to display any new messages for their followers.
 	 */
 	public void updateOpenViews() {
-		for (UserView view : openUserViews)
+		for (JFrame view : openUserViews)
 			view.repaint();
 	}
 }
