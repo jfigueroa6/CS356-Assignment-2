@@ -28,7 +28,7 @@ public class UserTotalVisitor implements Visitor {
 	@Override
 	public void visitUserGroup(UserGroup group) {
 		for (int i = 0; i < group.getNumChild(); i++)
-			group.accept(this);
+			group.getChild(i).accept(this);
 	}
 
 }
