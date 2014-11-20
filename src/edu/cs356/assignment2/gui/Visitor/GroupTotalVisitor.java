@@ -9,9 +9,14 @@ public class GroupTotalVisitor implements Visitor {
 	//=========================================================
 	// Methods
 	//=========================================================
+	/**
+	 * Get the number of groups counted.
+	 * @return	Number of groups
+	 */
 	public int getGroupCount() {
 		return count;
 	}
+	
 	/**
 	 * A GroupComponentUser calls this, but it is a NOP since only UserGroups
 	 * are being called.

@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import edu.cs356.assignment2.gui.AdminControlPanel;
+import edu.cs356.assignment2.gui.Visitor.GroupTotalVisitor;
 import edu.cs356.assignment2.gui.Visitor.UserTotalVisitor;
 import edu.cs356.assignment2.service.TwitterService;
 
@@ -46,6 +47,23 @@ public class ControlPanelShowControl extends JPanel {
 	// Methods
 	//=========================================================
 	/**
+	 * Adds an ActionListener to the showGroupTotal button which counts the number of groups. It then displays
+	 * the result in a dialog window.
+	 */
+	private void addListenerShowGroupTotal() {
+		showGroupTotal.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				GroupTotalVisitor v = new GroupTotalVisitor();
+				//Count the number of users and display dialog box with results
+				service.accept(v);
+				JOptionPane.showMessageDialog(acpSingleton, "Number of Groups: " + v.getGroupCount(), "Group Count"
+						, JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+	}
+	
+	/**
 	 * Adds an ActionListener to the showUserTotal button which counts the number of users. It then displays
 	 * the result in a dialog window.
 	 */
@@ -77,7 +95,7 @@ public class ControlPanelShowControl extends JPanel {
 	 */
 	private void initActionListeners() {
 		addListenerShowUserTotal();	//Initialize showUserTotal ActionListener
-		//addListenerShowGroupTotal();	//Initialize showGroupTotal ActionListener
+		addListenerShowGroupTotal();	//Initialize showGroupTotal ActionListener
 		//addListenerShowMsgTotal();	//Initialize showMsgTotal ActionListener
 		//addListenerShowPosPerc();	//Initialize showPosPerc ActionListener
 	}

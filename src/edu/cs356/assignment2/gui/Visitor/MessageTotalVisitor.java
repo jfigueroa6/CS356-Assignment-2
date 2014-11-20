@@ -10,6 +10,14 @@ public class MessageTotalVisitor implements Visitor {
 	// Methods
 	//=========================================================
 	/**
+	 * Get the total number of messages.
+	 * @return	Number of messages
+	 */
+	public int getMsgCount() {
+		return count;
+	}
+	
+	/**
 	 * Gets the total number of messages this leaf/user has on their
 	 * news feed.
 	 * @param leaf	User
