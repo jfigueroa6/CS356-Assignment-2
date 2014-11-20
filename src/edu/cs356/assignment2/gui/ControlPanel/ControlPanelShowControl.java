@@ -82,7 +82,7 @@ public class ControlPanelShowControl extends JPanel {
 			}
 		});
 	}
-	
+	//TODO: Test this
 	/**
 	 * Adds an ActionListener to the showPosPerc button which gets a percentage of positive messages. It then displays
 	 * the result in a dialog window. If it cannot open the positive_words file, an error message will appear.
@@ -95,8 +95,8 @@ public class ControlPanelShowControl extends JPanel {
 					PositiveMsgVisitor v = new PositiveMsgVisitor();
 					//Count the number of users and display dialog box with results
 					service.accept(v);
-					JOptionPane.showMessageDialog(acpSingleton, "Number of Groups: " + v.getPositivePercentage(), "Group Count"
-							, JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(acpSingleton, "Percent of Positive Tweets: " + v.getPositivePercentage() + "%", 
+							"Positive Tweet Percentage", JOptionPane.INFORMATION_MESSAGE);
 				} catch (FileNotFoundException e) {
 					JOptionPane.showMessageDialog(acpSingleton, "Error openining positive_words.txt", 
 							"File Error", JOptionPane.ERROR_MESSAGE);
@@ -104,8 +104,7 @@ public class ControlPanelShowControl extends JPanel {
 			}
 		});
 	}
-	
-	
+
 	/**
 	 * Adds an ActionListener to the showUserTotal button which counts the number of users. It then displays
 	 * the result in a dialog window.
