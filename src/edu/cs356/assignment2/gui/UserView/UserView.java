@@ -14,7 +14,8 @@ public class UserView extends JFrame {
 	public final static int HEIGHT = 425,
 							WIDTH = 300;
 	
-	private JPanel mainPanel;
+	private JPanel mainPanel,
+					tweetPanel;
 	//=========================================================
 	// Constructor
 	//=========================================================
@@ -38,7 +39,7 @@ public class UserView extends JFrame {
 	// Methods
 	//=========================================================
 	/**
-	 * This method is called when the window is close button is clicked. It removes
+	 * This method is called when the window close button is clicked. It removes
 	 * itself from the open view list in the ControlPanelOpenUser. Finally,
 	 * it closes the window.
 	 */
@@ -62,8 +63,18 @@ public class UserView extends JFrame {
 		
 		//Add subpanels
 		mainPanel.add(new FollowPanel(user));
+		tweetPanel = new NewsFeedPanel(user);
+		mainPanel.add(tweetPanel);
 		
+		//Add panel to this frame, and pack everything in.
 		getContentPane().add(mainPanel);
 		pack();
+	}
+	
+	/**
+	 * Called to update the news feed. This is usually done when another user view is updated.
+	 */
+	public void updateFrame() {
+		((NewsFeedPanel)tweetPanel).changedNewsFeed();
 	}
 }

@@ -21,7 +21,7 @@ import edu.cs356.assignment2.service.TwitterUser.User;
 @SuppressWarnings("serial")
 public class ControlPanelOpenUser extends JPanel {
 	private static ControlPanelOpenUser instance = null;	/**Holds static reference to an instance of this class*/
-	private List<JFrame> openUserViews = null;		/**Holds a reference to a list of all open user views*/
+	private List<UserView> openUserViews = null;		/**Holds a reference to a list of all open user views*/
 	
 	private JButton openUserView = new JButton("Open User View");
 	
@@ -33,7 +33,7 @@ public class ControlPanelOpenUser extends JPanel {
 	private ControlPanelOpenUser() {
 		acpSingleton = AdminControlPanel.getInstance();
 		service = TwitterService.getInstance();
-		openUserViews = new LinkedList<JFrame>();
+		openUserViews = new LinkedList<UserView>();
 		
 		setBackground(getBackground());
 		setPreferredSize(new Dimension(AdminControlPanel.WIDTH / 2,
@@ -100,7 +100,7 @@ public class ControlPanelOpenUser extends JPanel {
 	 * Refreshes any open user views to display any new messages for their followers.
 	 */
 	public void updateOpenViews() {
-		for (JFrame view : openUserViews)
-			view.repaint();
+		for (UserView view : openUserViews)
+			view.updateFrame();
 	}
 }

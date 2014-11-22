@@ -134,7 +134,7 @@ public class FollowPanel extends JPanel {
 	 */
 	private void updateFollowingList() {
 		//Setup the list by copying the following IDs from user
-		JList<String> list = new JList<String>(Arrays.copyOf(user.getFollowing().toArray(), user.getFollowing().size(), String[].class));	//(String[])user.getFollowing().toArray(new String[user.getFollowing().size()])
+		JList<String> list = new JList<String>(Arrays.copyOf(user.getFollowing().toArray(), user.getFollowing().size(), String[].class));
 		list.setSelectionMode(1);	//Allow only one item to be selected
 		list.setLayoutOrientation(JList.VERTICAL);
 		list.setPreferredSize(new Dimension(getWidth(), getHeight() * 2/3));
