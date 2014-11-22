@@ -47,6 +47,9 @@ public class ACPTreeView extends JScrollPane {
 		});
 	}
 	
+	/**
+	 * Expands the nodes that are groups so that they always show their children.
+	 */
 	private void expandGroups() {
 		for(int i = 0; i < tree.getRowCount(); i++)
 			tree.expandRow(i);
