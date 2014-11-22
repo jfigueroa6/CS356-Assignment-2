@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import edu.cs356.assignment2.gui.AdminControlPanel;
+import edu.cs356.assignment2.gui.TreeView.ACPTreeView;
 import edu.cs356.assignment2.gui.UserView.UserView;
 import edu.cs356.assignment2.service.TwitterService;
 import edu.cs356.assignment2.service.TwitterUser.User;
@@ -26,12 +27,14 @@ public class ControlPanelOpenUser extends JPanel {
 	private JButton openUserView = new JButton("Open User View");
 	
 	private AdminControlPanel acpSingleton;
+	private ACPTreeView treeSingleton;
 	private TwitterService service;
 	//=========================================================
 	// Constructor
 	//=========================================================
 	private ControlPanelOpenUser() {
 		acpSingleton = AdminControlPanel.getInstance();
+		treeSingleton = ACPTreeView.getInstance();
 		service = TwitterService.getInstance();
 		openUserViews = new LinkedList<UserView>();
 		
@@ -57,7 +60,7 @@ public class ControlPanelOpenUser extends JPanel {
 		openUserView.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				User user = service.getUser(acpSingleton.getSelectedID());
+				User user = service.getUser(treeSingleton.getSelectedID());
 				//If the ID is a user, then a user object is stored in user so create a new window.
 				//Else show an error.
 				if (user != null)

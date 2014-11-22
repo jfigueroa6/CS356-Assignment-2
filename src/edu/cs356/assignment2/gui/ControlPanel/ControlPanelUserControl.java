@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import edu.cs356.assignment2.gui.AdminControlPanel;
+import edu.cs356.assignment2.gui.TreeView.ACPTreeView;
 import edu.cs356.assignment2.service.TwitterService;
 
 @SuppressWarnings("serial")
@@ -25,12 +26,14 @@ public class ControlPanelUserControl extends JPanel {
 						groupID = new JTextArea("Group ID", 1, 20);	/**TextArea with only 1 row and limit of 20 characters*/
 	
 	private AdminControlPanel acpSingleton;
+	private ACPTreeView treeSingleton;
 	private TwitterService service;
 	//=========================================================
 	// Constructor
 	//=========================================================
 	private ControlPanelUserControl() {
 		acpSingleton = AdminControlPanel.getInstance();
+		treeSingleton = ACPTreeView.getInstance();
 		service = TwitterService.getInstance();
 		
 		//Set up the panel
@@ -57,9 +60,9 @@ public class ControlPanelUserControl extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				//Gets the group selected for the user from acpSingleton, and gets the new user ID
 				//from the userID TextArea. If the addUserfunction fails, then display a dialog message
-				if (service.addUser(userID.getText(), acpSingleton.getSelectedID()))
+				if (service.addUser(userID.getText(), treeSingleton.getSelectedID()))
 					//Operation successful so repaint the tree.
-					acpSingleton.updateACPView();
+					treeSingleton.updateView();
 				else
 					//addUser failed so display a message
 					JOptionPane.showMessageDialog(acpSingleton, "Error adding user. Check if selected ID is a user or"
@@ -79,9 +82,9 @@ public class ControlPanelUserControl extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				//Gets the parent group selected for the group from acpSingleton, and gets the new group ID
 				//from the groupID TextArea. If the addGroup function fails, then display a dialog message
-				if (service.addGroup(groupID.getText(), acpSingleton.getSelectedID()))
+				if (service.addGroup(groupID.getText(), treeSingleton.getSelectedID()))
 					//Operation successful so repaint the tree.
-					acpSingleton.updateACPView();
+					treeSingleton.updateView();
 				else
 					//addGroup failed so display a message
 					JOptionPane.showMessageDialog(acpSingleton, "Error adding group. Check if selected ID is a user or"
@@ -101,13 +104,13 @@ public class ControlPanelUserControl extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// Get the selected User ID from acpSingleton. If the removeUser method fails,
 				//then a dialog message will be displayed.
-				if (service.removeUser(acpSingleton.getSelectedID()))
+				if (service.removeUser(treeSingleton.getSelectedID()))
 					//Operation successful so repaint the tree
-					acpSingleton.updateACPView();
+					treeSingleton.updateView();
 				else
 					//removeUser failed so display a message
 					JOptionPane.showMessageDialog(acpSingleton, "Error removing ID: " 
-							+ acpSingleton.getSelectedID() + ". Make sure it is a user ID.", "Remove User Error"
+							+ treeSingleton.getSelectedID() + ". Make sure it is a user ID.", "Remove User Error"
 							, JOptionPane.ERROR_MESSAGE);
 				userID.setText("User ID");	//BUG: Doing this because for some reason tree view won't reappear
 			}
@@ -124,13 +127,13 @@ public class ControlPanelUserControl extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// Get the selected Group ID from acpSingleton. If the removeGroup method fails,
 				//then a dialog message will be displayed.
-				if (service.removeGroup(acpSingleton.getSelectedID()))
+				if (service.removeGroup(treeSingleton.getSelectedID()))
 					//Operation successful so repaint the tree
-					acpSingleton.updateACPView();
+					treeSingleton.updateView();
 				else
 					//removeGroup failed so display a message
 					JOptionPane.showMessageDialog(acpSingleton, "Error removing ID: " 
-							+ acpSingleton.getSelectedID() + ". Make sure it is a group ID and not root.", "Remove Group Error"
+							+ treeSingleton.getSelectedID() + ". Make sure it is a group ID and not root.", "Remove Group Error"
 							, JOptionPane.ERROR_MESSAGE);
 				groupID.setText("Group ID");	//BUG: Doing this because for some reason tree view won't reappear
 			}
