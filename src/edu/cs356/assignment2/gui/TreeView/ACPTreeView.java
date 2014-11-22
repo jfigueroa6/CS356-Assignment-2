@@ -47,6 +47,11 @@ public class ACPTreeView extends JScrollPane {
 		});
 	}
 	
+	private void expandGroups() {
+		for(int i = 0; i < tree.getRowCount(); i++)
+			tree.expandRow(i);
+	}
+	
 	/**
 	 * Get the TreeView singleton instance. Uses lazy instantiation.
 	 * @return	Instance of TreeView.
@@ -82,6 +87,7 @@ public class ACPTreeView extends JScrollPane {
 		tree = new JTree(visitor.getRoot());
 		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);	//Can only select one item in the tree
 		addTreeSelectionListener();
+		expandGroups();
 		
 		//Set the JScrollPane view to the tree
 		setViewportView(tree);
@@ -95,4 +101,6 @@ public class ACPTreeView extends JScrollPane {
 		updateTreeView();
 		selectedID = "root";
 	}
+	
+	
 }
