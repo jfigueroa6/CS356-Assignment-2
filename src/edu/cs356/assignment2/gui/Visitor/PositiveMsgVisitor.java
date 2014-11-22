@@ -34,7 +34,7 @@ public class PositiveMsgVisitor implements Visitor {
 	 */
 	public double getPositivePercentage() {
 		try {
-			return (posCount / totalMsg) * 100;
+			return ((double)posCount / totalMsg) * 100;
 		} catch (ArithmeticException e) {
 			//Attempted to divide by 0
 			return 0;
@@ -75,8 +75,10 @@ public class PositiveMsgVisitor implements Visitor {
 			boolean done = false;	//Will become true if a positive word is found. No need to go through the entire tweet.
 			while (t.hasNext() && !done) {
 				String word = t.next();
-				//Check if the word is in the map. Put it to lower case so only the word is important, not its case.
-				if (positiveWords.containsKey(word.toLowerCase())) {
+				//Get rid of any characters that are not letters and make it lower case. Only care for the word.
+				word = word.replaceAll("[^a-zA-Z]", "").toLowerCase();
+				//Check if the word is in the map.
+				if (positiveWords.containsKey(word)) {
 					posCount++;
 					done = true;
 				}		
