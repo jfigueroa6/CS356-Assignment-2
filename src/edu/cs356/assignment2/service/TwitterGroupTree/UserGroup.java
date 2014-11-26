@@ -1,15 +1,15 @@
 package edu.cs356.assignment2.service.TwitterGroupTree;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import edu.cs356.assignment2.gui.Visitor.Visitor;
 import edu.cs356.assignment2.service.TwitterUser.User;
 
-public class UserGroup implements GroupComponents{
+public class UserGroup extends GroupComponents{
 	private String id;		/**Group ID*/
 	private List<GroupComponents> children = null;	/**List of child GroupComponents*/
-	private GroupComponents parent = null;
 	
 	//=========================================================
 	// Constructor
@@ -21,6 +21,7 @@ public class UserGroup implements GroupComponents{
 	public UserGroup(String id) {
 		this.id = id;
 		children = new ArrayList<GroupComponents>();
+		System.out.println(this.id + " created on " + (new Date(getCreationTime())).toString());
 	}
 	
 	//=========================================================
@@ -97,16 +98,6 @@ public class UserGroup implements GroupComponents{
 				return result;
 		}
 		return null;
-	}
-
-	@Override
-	public void setParent(GroupComponents parent) {
-		this.parent = parent;
-	}
-
-	@Override
-	public GroupComponents getParent() {
-		return parent;
 	}
 	
 	/**

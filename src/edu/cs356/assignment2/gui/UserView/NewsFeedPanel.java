@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -22,6 +23,7 @@ public class NewsFeedPanel extends JPanel {
 	private JTextArea tweetInput = new JTextArea("Tweet Message");	//Where tweets are input
 	private JButton postTweet = new JButton("Post Tweet");	//Post tweet to user's and follower's news feed
 	private JScrollPane newsFeed;	//Holds the news feed
+	private JLabel lastUpdate = new JLabel("Last Update: ");
 	
 	//=========================================================
 	// Constructor
@@ -40,7 +42,8 @@ public class NewsFeedPanel extends JPanel {
 		updateNewsFeed();
 		
 		//Add components to this panel
-		add(tweetInput, BorderLayout.CENTER);
+		add(tweetInput, BorderLayout.NORTH);
+		add(lastUpdate, BorderLayout.CENTER);
 		add(postTweet, BorderLayout.EAST);
 		add(newsFeed, BorderLayout.SOUTH);
 	}
@@ -87,5 +90,7 @@ public class NewsFeedPanel extends JPanel {
 		list.setLayoutOrientation(JList.VERTICAL);
 		//Add scrollbars and assign to newsFeed
 		newsFeed = new JScrollPane(list);
+		//Update the lastUpdate time
+		lastUpdate.setText("Last Update: " + user.getLastUpdate().toString());
 	}
 }

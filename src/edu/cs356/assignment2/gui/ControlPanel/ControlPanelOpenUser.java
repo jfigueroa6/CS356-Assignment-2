@@ -16,6 +16,8 @@ import javax.swing.JPanel;
 import edu.cs356.assignment2.gui.AdminControlPanel;
 import edu.cs356.assignment2.gui.TreeView.ACPTreeView;
 import edu.cs356.assignment2.gui.UserView.UserView;
+import edu.cs356.assignment2.gui.Visitor.IDValidationVisitor;
+import edu.cs356.assignment2.gui.Visitor.LastUserUpdateVisitor;
 import edu.cs356.assignment2.service.TwitterService;
 import edu.cs356.assignment2.service.TwitterUser.User;
 
@@ -24,7 +26,9 @@ public class ControlPanelOpenUser extends JPanel {
 	private static ControlPanelOpenUser instance = null;	/**Holds static reference to an instance of this class*/
 	private List<UserView> openUserViews = null;		/**Holds a reference to a list of all open user views*/
 	
-	private JButton openUserView = new JButton("Open User View");
+	private JButton openUserView = new JButton("Open User View"),
+					checkIDs = new JButton("Validate IDs"),
+					lastUpdate = new JButton("Last Updated User");
 	
 	private AdminControlPanel acpSingleton;
 	private ACPTreeView treeSingleton;
@@ -43,8 +47,10 @@ public class ControlPanelOpenUser extends JPanel {
 				AdminControlPanel.HEIGHT / 3));	//Takes up 1/3 of the ControlPanel
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		//Initialize openUserView ActionListener
+		//Initialize openUserView and checkIDsActionListener
 		addListenerUserView();
+		addListenerCheckIDs();
+		addListenerLastUpdate();
 		//Add Button
 		initOpenUser();
 	}
@@ -72,6 +78,35 @@ public class ControlPanelOpenUser extends JPanel {
 	}
 	
 	/**
+	 * Adds an ActionListener to the checkIDs button which will display a dialog window with
+	 * the result of a validity check on the user and group IDs.
+	 */
+	private void addListenerCheckIDs() {
+		checkIDs.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				IDValidationVisitor v = new IDValidationVisitor();
+				service.accept(v);
+				JOptionPane.showMessageDialog(acpSingleton, "IDs Valid?: " + v.getValidity(), "ID Validity Check",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+	}
+	
+	private void addListenerLastUpdate() {
+		lastUpdate.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				LastUserUpdateVisitor v = new LastUserUpdateVisitor();
+				service.accept(v);
+				JOptionPane.showMessageDialog(acpSingleton, "Last Updated User: " + v.getLastUpdatedID(),
+						"Last Updated User", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+	}
+	
+	/**
 	 * Get the ControlPanelOpenUser singleton instance. Uses lazy instantiation.
 	 * @return	Instance of ControlPanelOpenUser.
 	 */
@@ -88,7 +123,11 @@ public class ControlPanelOpenUser extends JPanel {
 		//Add buttons
 		add(Box.createRigidArea(new Dimension(0, 5)));
 		add(openUserView);
-		add(Box.createRigidArea(new Dimension(0, getPreferredSize().height - 50)));
+		add(Box.createRigidArea(new Dimension(0, 5)));
+		add(checkIDs);
+		add(Box.createRigidArea(new Dimension(0, 5)));
+		add(lastUpdate);
+		add(Box.createRigidArea(new Dimension(0, getPreferredSize().height - 150)));
 	}
 	
 	/**

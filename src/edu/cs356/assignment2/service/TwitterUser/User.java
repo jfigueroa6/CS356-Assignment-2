@@ -1,5 +1,6 @@
 package edu.cs356.assignment2.service.TwitterUser;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,6 +12,7 @@ public class User extends Observable implements Observer {
 						 following;		/**List of ID's of users being followed*/
 	private String id;					/**User id*/
 	private List<Tweet> newsFeed;		/**News feed containing user and following tweets*/
+	private long lastUpdate;			/**Last time the news feed was updated*/
 	
 	//=========================================================
 	// Constructor
@@ -26,6 +28,7 @@ public class User extends Observable implements Observer {
 		followers = new LinkedList<String>();
 		following = new LinkedList<String>();
 		newsFeed = new LinkedList<Tweet>();
+		lastUpdate = System.currentTimeMillis();
 	}
 	
 	//=========================================================
@@ -108,6 +111,14 @@ public class User extends Observable implements Observer {
 	}
 	
 	/**
+	 * Get the last time the news feed was updated
+	 * @return	Time of last update
+	 */
+	public Date getLastUpdate() {
+		return new Date(lastUpdate);
+	}
+	
+	/**
 	 * Get this user's news feed.
 	 * @return	News Feed
 	 */
@@ -123,6 +134,7 @@ public class User extends Observable implements Observer {
 	public void postTweet(String msg) {
 		Tweet tweet = new Tweet(id, msg);
 		newsFeed.add(tweet);
+		lastUpdate = System.currentTimeMillis();
 		setChanged();
 		notifyObservers(tweet);
 	}
@@ -139,6 +151,7 @@ public class User extends Observable implements Observer {
 			if (t.getID().equals(userID))
 				i.remove();
 		}
+		lastUpdate = System.currentTimeMillis();
 	}
 	
 	/**
@@ -159,6 +172,7 @@ public class User extends Observable implements Observer {
 		//The notification is a tweet so post it to our news feed
 		else {
 			newsFeed.add((Tweet)arg1);
+			lastUpdate = System.currentTimeMillis();
 		}
 	}
 }
